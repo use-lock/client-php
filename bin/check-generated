@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+baseline=$(mktemp -d)
+trap 'rm -rf "$baseline"' EXIT
+cp -R src "$baseline/src"
+bash bin/generate
+diff -ru "$baseline/src" src

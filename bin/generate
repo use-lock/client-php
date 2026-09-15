@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+version=7.25.0
+jar=".cache/openapi-generator-cli-$version.jar"
+mkdir -p .cache
+if [ ! -f "$jar" ]; then
+    curl --fail --location --silent --show-error "https://repo.maven.apache.org/maven2/org/openapitools/openapi-generator-cli/$version/openapi-generator-cli-$version.jar" -o "$jar.tmp"
+    mv "$jar.tmp" "$jar"
+fi
+php -r 'if (hash_file("sha256", $argv[1]) !== "41ce4f6b07f196676439d710759fa1ced7a08066d06ff1bf314681470289efae") { fwrite(STDERR, "Generator checksum mismatch\n"); exit(1); }' "$jar"
+generation_dir=$(mktemp -d .cache/generate.XXXXXX)
+trap 'rm -rf "$generation_dir"' EXIT
+php bin/prepare-openapi.php "$generation_dir"
+for group in Admin Auth Management; do
+    output="$generation_dir/generated-$group"
+    mkdir -p "$output"
+    cp "$generation_dir/$group.ignore" "$output/.openapi-generator-ignore"
+    supporting_files='ModelInterface.php:Configuration.php:ApiException.php:HeaderSelector.php:ObjectSerializer.php'
+    if [ "$group" = Auth ]; then
+        supporting_files="$supporting_files:FormDataProcessor.php"
+    fi
+    java -jar "$jar" generate -g php -i "$generation_dir/$group.json" -c "openapi/$group.json" -o "$output" \
+        --template-dir openapi/templates \
+        --global-property "skipFormModel=false,apiTests=false,modelTests=false,apiDocs=false,modelDocs=false,apis,models,supportingFiles=$supporting_files" \
+        > "$generation_dir/$group.log" 2>&1 || { cat "$generation_dir/$group.log"; exit 1; }
+done
+for group in Admin Auth Management; do
+    rm -rf "src/OpenApi/$group"
+    mkdir -p "src/OpenApi/$group"
+    cp -R "$generation_dir/generated-$group/src/." "src/OpenApi/$group/"
+done
+printf 'Generated Admin, Auth and Management clients with OpenAPI Generator %s.\n' "$version"
