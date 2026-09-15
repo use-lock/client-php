@@ -1,0 +1,5 @@
+/src/OpenApi/** linguist-generated=true
+/openapi/spec/** linguist-generated=true
+/tests export-ignore
+/bin export-ignore
+/.github export-ignore

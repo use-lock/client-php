@@ -1,0 +1,8 @@
+{
+    "invokerPackage": "Lock\\Client\\OpenApi\\Management",
+    "srcBasePath": "src",
+    "library": "guzzle",
+    "hideGenerationTimestamp": true,
+    "licenseName": "MIT",
+    "variableNamingConvention": "camelCase"
+}
