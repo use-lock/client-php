@@ -1,0 +1,11 @@
+{
+    "preset": "laravel",
+    "exclude": [
+        "src/OpenApi",
+        ".cache"
+    ],
+    "rules": {
+        "declare_strict_types": true,
+        "blank_line_after_opening_tag": false
+    }
+}
