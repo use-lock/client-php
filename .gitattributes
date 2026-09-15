@@ -1,0 +1,6 @@
+/src/Management/** linguist-generated=true
+/src/Oidc/** linguist-generated=true
+/openapi/lock.json linguist-generated=true
+/tests export-ignore
+/bin export-ignore
+/.github export-ignore

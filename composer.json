@@ -1,0 +1,44 @@
+{
+    "name": "use-lock/client-php",
+    "description": "Framework-independent PHP client for the Lock management and OpenID Connect APIs",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.5",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.9",
+        "guzzlehttp/psr7": "^2.7"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.32.1",
+        "pestphp/pest": "^5.0",
+        "phpstan/phpstan": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lock\\Client\\": "src/"
+        }
+    },
+    "scripts": {
+        "generate": "bash bin/generate",
+        "sync-openapi": "bash bin/sync-openapi",
+        "test": "pest",
+        "lint:fix": "pint",
+        "test:lint": "pint --test",
+        "analyse": "phpstan analyse",
+        "check": [
+            "@test:lint",
+            "@analyse",
+            "@test"
+        ],
+        "check:generated": "bash bin/check-generated"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

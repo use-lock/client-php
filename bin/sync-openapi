@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+cp "${OPENAPI_SOURCE:-../lock/openapi.json}" openapi/lock.json
+bash bin/generate
