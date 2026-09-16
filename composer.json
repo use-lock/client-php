@@ -9,7 +9,10 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^7.9",
-        "guzzlehttp/psr7": "^2.7"
+        "guzzlehttp/psr7": "^2.7",
+        "lcobucci/jwt": "^5.0",
+        "phpseclib/phpseclib": "^3.0.15",
+        "psr/simple-cache": "^3.0"
     },
     "require-dev": {
         "laravel/pint": "^1.32.1",
