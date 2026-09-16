@@ -7,9 +7,9 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use Lock\Client\Admin\Api\RealmsApi;
-use Lock\Client\Admin\ApiException;
-use Lock\Client\Admin\Configuration;
+use Lock\Client\OpenApi\Admin\Api\RealmsApi;
+use Lock\Client\OpenApi\Admin\ApiException;
+use Lock\Client\OpenApi\Admin\Configuration;
 
 it('sends bearer authentication and filters and decodes paginated realms', function () {
     $history = [];

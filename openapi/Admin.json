@@ -1,5 +1,5 @@
 {
-    "invokerPackage": "Lock\\Client\\Admin",
+    "invokerPackage": "Lock\\Client\\OpenApi\\Admin",
     "srcBasePath": "src",
     "library": "guzzle",
     "hideGenerationTimestamp": true,

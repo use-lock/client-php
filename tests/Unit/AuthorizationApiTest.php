@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Lock\Client\Auth\Api\AuthorizationApi;
-use Lock\Client\Auth\Configuration;
+use Lock\Client\OpenApi\Auth\Api\AuthorizationApi;
+use Lock\Client\OpenApi\Auth\Configuration;
 
 it('builds authorization URLs with scalar and multiple resource indicators', function (string|array $resource) {
     $api = new AuthorizationApi(config: (new Configuration)->setHost('https://realm.example'));

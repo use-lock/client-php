@@ -37,7 +37,7 @@ foreach (['Admin', 'Auth', 'Management'] as $group) {
                 $requestSchema = $spec['components']['schemas'][basename($operation['requestBody']['content']['application/x-www-form-urlencoded']['schema']['$ref'])];
                 $tokenVariants = array_map(fn (array $variant): string => basename($variant['$ref']), $requestSchema['oneOf']);
                 $operation['x-php-token-types'] = implode('|', array_map(
-                    fn (array $variant): string => '\\Lock\\Client\\'.$group.'\\Model\\'.basename($variant['$ref']),
+                    fn (array $variant): string => '\\Lock\\Client\\OpenApi\\'.$group.'\\Model\\'.basename($variant['$ref']),
                     $requestSchema['oneOf'],
                 ));
             }

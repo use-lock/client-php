@@ -7,15 +7,15 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
-use Lock\Client\Auth\Api\DiscoveryApi;
-use Lock\Client\Auth\Api\TokensApi;
-use Lock\Client\Auth\Api\UserInfoApi;
-use Lock\Client\Auth\ApiException;
-use Lock\Client\Auth\Configuration;
-use Lock\Client\Auth\Model\AuthorizationCodeRequest;
-use Lock\Client\Auth\Model\ClientCredentialsRequest;
-use Lock\Client\Auth\Model\RefreshTokenRequest;
-use Lock\Client\Auth\Model\TokenExchangeRequest;
+use Lock\Client\OpenApi\Auth\Api\DiscoveryApi;
+use Lock\Client\OpenApi\Auth\Api\TokensApi;
+use Lock\Client\OpenApi\Auth\Api\UserInfoApi;
+use Lock\Client\OpenApi\Auth\ApiException;
+use Lock\Client\OpenApi\Auth\Configuration;
+use Lock\Client\OpenApi\Auth\Model\AuthorizationCodeRequest;
+use Lock\Client\OpenApi\Auth\Model\ClientCredentialsRequest;
+use Lock\Client\OpenApi\Auth\Model\RefreshTokenRequest;
+use Lock\Client\OpenApi\Auth\Model\TokenExchangeRequest;
 
 it('posts client credentials as form data to the configured realm host', function (string|array $resource) {
     $history = [];

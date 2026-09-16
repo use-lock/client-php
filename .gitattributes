@@ -1,6 +1,4 @@
-/src/Admin/** linguist-generated=true
-/src/Auth/** linguist-generated=true
-/src/Management/** linguist-generated=true
+/src/OpenApi/** linguist-generated=true
 /openapi/spec/** linguist-generated=true
 /tests export-ignore
 /bin export-ignore

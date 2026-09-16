@@ -26,8 +26,8 @@ for group in Admin Auth Management; do
         > "$generation_dir/$group.log" 2>&1 || { cat "$generation_dir/$group.log"; exit 1; }
 done
 for group in Admin Auth Management; do
-    rm -rf "src/$group"
-    mkdir -p "src/$group"
-    cp -R "$generation_dir/generated-$group/src/." "src/$group/"
+    rm -rf "src/OpenApi/$group"
+    mkdir -p "src/OpenApi/$group"
+    cp -R "$generation_dir/generated-$group/src/." "src/OpenApi/$group/"
 done
 printf 'Generated Admin, Auth and Management clients with OpenAPI Generator %s.\n' "$version"

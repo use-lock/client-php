@@ -1,7 +1,7 @@
 {
     "preset": "laravel",
     "exclude": [
-        "src",
+        "src/OpenApi",
         ".cache"
     ],
     "rules": {

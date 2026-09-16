@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Lock\Client\Management\Api\ClientsApi;
-use Lock\Client\Management\Configuration;
-use Lock\Client\Management\Model\UpdateClientData;
+use Lock\Client\OpenApi\Management\Api\ClientsApi;
+use Lock\Client\OpenApi\Management\Configuration;
+use Lock\Client\OpenApi\Management\Model\UpdateClientData;
 
 it('preserves omitted, null and zero values in PATCH bodies', function (array $data, string $expected) {
     $api = new ClientsApi(config: (new Configuration)->setHost('https://tenant.example/api'));

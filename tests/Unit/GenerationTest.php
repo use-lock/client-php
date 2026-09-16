@@ -20,7 +20,7 @@ it('exposes the named client operations without consent or async endpoints', fun
                 }
                 [$tag, $method] = $names[$id];
                 $exposed++;
-                $api = 'Lock\\Client\\'.$group.'\\Api\\'.$tag.'Api';
+                $api = 'Lock\\Client\\OpenApi\\'.$group.'\\Api\\'.$tag.'Api';
 
                 expect(method_exists($api, $method))->toBeTrue();
                 expect(method_exists($api, $method.'Async'))->toBeFalse();
