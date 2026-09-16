@@ -1,0 +1,8 @@
+{
+    "invokerPackage": "Lock\\Client\\Admin",
+    "srcBasePath": "src",
+    "library": "guzzle",
+    "hideGenerationTimestamp": true,
+    "licenseName": "MIT",
+    "variableNamingConvention": "camelCase"
+}

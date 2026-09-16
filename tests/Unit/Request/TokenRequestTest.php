@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use Lock\Client\Oidc\Api\TokensApi;
-use Lock\Client\Oidc\Model\AuthorizationCodeRequest;
-use Lock\Client\Oidc\Model\ClientCredentialsRequest;
-use Lock\Client\Oidc\Model\RefreshTokenRequest;
-use Lock\Client\Oidc\Model\TokenExchangeRequest;
-use Lock\Client\Oidc\Model\UserInfo;
+use Lock\Client\Auth\Api\TokensApi;
+use Lock\Client\Auth\Model\AuthorizationCodeRequest;
+use Lock\Client\Auth\Model\ClientCredentialsRequest;
+use Lock\Client\Auth\Model\RefreshTokenRequest;
+use Lock\Client\Auth\Model\TokenExchangeRequest;
+use Lock\Client\Auth\Model\UserInfo;
 
 it('rejects invalid grant requests before sending HTTP', function (Closure $create) {
     expect(fn () => (new TokensApi)->issueTokenRequest($create()))->toThrow(InvalidArgumentException::class);

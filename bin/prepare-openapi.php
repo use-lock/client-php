@@ -4,27 +4,20 @@ declare(strict_types=1);
 
 $root = dirname(__DIR__);
 $outputDirectory = $argv[1] ?? $root.'/.cache';
-$spec = json_decode(file_get_contents($root.'/openapi/lock.json'), true, flags: JSON_THROW_ON_ERROR);
-
 $operations = json_decode(file_get_contents($root.'/openapi/operations.json'), true, flags: JSON_THROW_ON_ERROR);
 
-foreach (['Management', 'Oidc'] as $group) {
+foreach (['Admin', 'Auth', 'Management'] as $group) {
+    $spec = json_decode(file_get_contents($root.'/openapi/spec/'.strtolower($group).'.json'), true, flags: JSON_THROW_ON_ERROR);
     $document = $spec;
     $document['paths'] = [];
     $formModels = [];
     $tokenVariants = [];
-    $document['servers'] = [['url' => $group === 'Management' ? 'https://lock.example/api' : 'https://lock.example']];
+    $document['servers'] = [['url' => $group === 'Auth' ? 'https://lock.example' : 'https://lock.example/api']];
 
     foreach ($spec['paths'] as $path => $pathOperations) {
         foreach ($pathOperations as $method => $operation) {
-            $isManagement = array_intersect($operation['tags'] ?? [], ['Admin API', 'Management API']) !== [];
-
-            if ($isManagement !== ($group === 'Management')) {
-                continue;
-            }
-
             // Per-operation example servers override Configuration::setHost() in the PHP generator.
-            unset($operation['servers'], $operation['x-internal']);
+            unset($operation['servers'], $operation['x-internal'], $operation['x-group']);
             $id = $operation['operationId'];
             if (! array_key_exists($id, $operations)) {
                 throw new RuntimeException('Missing public API name for '.$id);

@@ -12,12 +12,12 @@ php -r 'if (hash_file("sha256", $argv[1]) !== "41ce4f6b07f196676439d710759fa1ced
 generation_dir=$(mktemp -d .cache/generate.XXXXXX)
 trap 'rm -rf "$generation_dir"' EXIT
 php bin/prepare-openapi.php "$generation_dir"
-for group in Management Oidc; do
+for group in Admin Auth Management; do
     output="$generation_dir/generated-$group"
     mkdir -p "$output"
     cp "$generation_dir/$group.ignore" "$output/.openapi-generator-ignore"
     supporting_files='ModelInterface.php:Configuration.php:ApiException.php:HeaderSelector.php:ObjectSerializer.php'
-    if [ "$group" = Oidc ]; then
+    if [ "$group" = Auth ]; then
         supporting_files="$supporting_files:FormDataProcessor.php"
     fi
     java -jar "$jar" generate -g php -i "$generation_dir/$group.json" -c "openapi/$group.json" -o "$output" \
@@ -25,9 +25,9 @@ for group in Management Oidc; do
         --global-property "skipFormModel=false,apiTests=false,modelTests=false,apiDocs=false,modelDocs=false,apis,models,supportingFiles=$supporting_files" \
         > "$generation_dir/$group.log" 2>&1 || { cat "$generation_dir/$group.log"; exit 1; }
 done
-for group in Management Oidc; do
+for group in Admin Auth Management; do
     rm -rf "src/$group"
     mkdir -p "src/$group"
     cp -R "$generation_dir/generated-$group/src/." "src/$group/"
 done
-printf 'Generated Management and OIDC clients with OpenAPI Generator %s.\n' "$version"
+printf 'Generated Admin, Auth and Management clients with OpenAPI Generator %s.\n' "$version"

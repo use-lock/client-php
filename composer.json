@@ -1,6 +1,6 @@
 {
     "name": "use-lock/client-php",
-    "description": "Framework-independent PHP client for the Lock management and OpenID Connect APIs",
+    "description": "Framework-independent PHP client for the Lock admin, management and auth APIs",
     "type": "library",
     "license": "MIT",
     "require": {

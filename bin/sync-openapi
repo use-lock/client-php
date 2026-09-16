@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
-cp "${OPENAPI_SOURCE:-../lock/openapi.json}" openapi/lock.json
+repository=${LOCK_REPOSITORY:-use-lock/lock}
+ref=${LOCK_REF:-main}
+mkdir -p openapi/spec
+for group in admin auth management; do
+    curl --fail --location --silent --show-error "https://raw.githubusercontent.com/$repository/$ref/openapi.$group.json" -o "openapi/spec/$group.json.tmp"
+    mv "openapi/spec/$group.json.tmp" "openapi/spec/$group.json"
+done
 bash bin/generate
