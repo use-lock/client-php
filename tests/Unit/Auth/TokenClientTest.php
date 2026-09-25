@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use Lock\Client\Auth\ProviderException;
 use Lock\Client\Auth\Tokens\TokenClient;
 
 beforeEach(function () {
@@ -37,4 +44,23 @@ it('authenticates with client_secret_post or client_secret_basic', function (boo
 })->with([
     'post' => [false, '', ['client_id' => 'client-123', 'client_secret' => 'se:cret']],
     'basic' => [true, 'Basic '.base64_encode('client-123:se%3Acret'), []],
+]);
+
+it('tells a rejected grant from a provider that failed or could not be reached', function (Response|ConnectException $response, ?int $status, ?string $error, bool $transient, string $message) {
+    $client = new TokenClient(realm(), 'client-123', 'se:cret', new Client(['handler' => HandlerStack::create(new MockHandler([$response]))]));
+
+    try {
+        $client->refresh('the-refresh-token');
+        $this->fail('The grant did not fail.');
+    } catch (ProviderException $exception) {
+        expect($exception->status)->toBe($status)
+            ->and($exception->error)->toBe($error)
+            ->and($exception->isTransient())->toBe($transient)
+            ->and($exception->getMessage())->toContain($message);
+    }
+})->with([
+    'rejected' => [new Response(400, ['Content-Type' => 'application/json'], '{"error":"invalid_grant"}'), 400, 'invalid_grant', false, 'rejected the refresh_token grant [invalid_grant]'],
+    'provider failure' => [new Response(503, [], 'down'), 503, null, true, 'failed on the refresh_token grant'],
+    'throttled' => [new Response(429, [], 'slow down'), 429, null, true, 'rejected the refresh_token grant'],
+    'unreachable' => [new ConnectException('Connection refused', new Request('POST', 'https://id.example.com/oauth/token')), null, null, true, 'could not be reached for the refresh_token grant'],
 ]);
