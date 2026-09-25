@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lock\Client\Auth\Tokens;
 
 use Lock\Client\Auth\OidcException;
+use Lock\Client\Auth\ProviderException;
 use Lock\Client\OpenApi\Auth\Api\DiscoveryApi;
 use Lock\Client\OpenApi\Auth\ApiException;
 use phpseclib3\Crypt\RSA;
@@ -47,7 +48,7 @@ class JwksKeyResolver
         try {
             $jwks = $this->discovery->getJsonWebKeySet()->getKeys() ?? [];
         } catch (ApiException $e) {
-            throw new OidcException('The JWKS could not be fetched.', 0, $e);
+            throw new ProviderException('The JWKS could not be fetched.', $e->getCode() ?: null, previous: $e);
         }
 
         $keys = [];

@@ -51,6 +51,7 @@ $tokens->claims['sub'];
 ```
 
 `complete()` checks state, exchanges the code and validates the ID token. Every failure throws `Lock\Client\Auth\OidcException`.
+A failed request to the provider (token endpoint, JWKS) throws its subclass `Lock\Client\Auth\ProviderException`, which carries the HTTP `status` (null when no response arrived) and the OAuth `error` code. `isTransient()` is true when retrying may help (no response, 5xx, 429) and false for a rejection such as `invalid_grant`, so a client can keep its session through an outage.
 
 To log out at the provider, redirect to the logout URL:
 

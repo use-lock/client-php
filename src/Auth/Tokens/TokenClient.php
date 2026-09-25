@@ -6,7 +6,7 @@ namespace Lock\Client\Auth\Tokens;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use Lock\Client\Auth\OidcException;
+use Lock\Client\Auth\ProviderException;
 use Lock\Client\Auth\TokenSet;
 use Lock\Client\OpenApi\Auth\Api\TokensApi;
 use Lock\Client\OpenApi\Auth\ApiException;
@@ -122,15 +122,23 @@ class TokenClient
         $exception = null;
 
         try {
-            $response = $this->api->issueToken($request);
+            [$response, $status] = $this->api->issueTokenWithHttpInfo($request);
         } catch (ApiException $exception) {
             $response = $exception->getResponseObject();
+            $status = $exception->getCode() ?: null;
         }
 
         if (! $response instanceof TokenResponse || (string) $response->getAccessToken() === '') {
-            $error = $response instanceof OAuthError && $response->getError() ? " [{$response->getError()}]" : '';
+            $error = $response instanceof OAuthError ? $response->getError() : null;
+            $suffix = $error ? " [{$error}]" : '';
 
-            throw new OidcException("The token endpoint rejected the {$request->getGrantType()} grant{$error}.", 0, $exception);
+            $outcome = match (true) {
+                $status === null => 'could not be reached for',
+                $status >= 500 => 'failed on',
+                default => 'rejected',
+            };
+
+            throw new ProviderException("The token endpoint {$outcome} the {$request->getGrantType()} grant{$suffix}.", $status, $error, $exception);
         }
 
         return new TokenSet(
