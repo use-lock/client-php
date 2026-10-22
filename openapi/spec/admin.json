@@ -1,8 +1,8 @@
 {
-    "openapi": "3.1.0",
+    "openapi": "3.1.2",
     "info": {
         "title": "Lock API",
-        "version": "1.0.0",
+        "version": "0.0.0",
         "description": "OAuth and OpenID Connect endpoints, discovery metadata, and the APIs for managing this Lock instance. Protocol endpoints are served on each realm\u2019s own host.",
         "license": {
             "name": "MIT",
@@ -456,106 +456,6 @@
                 ],
                 "x-group": "admin"
             },
-            "put": {
-                "operationId": "v1.realms.update",
-                "description": "A realm's slug is immutable. Settings left out of `settings` keep\ntheir current value. Re-pointing the domain changes the issuer of every\ntoken the realm mints and restarts the domain check.",
-                "summary": "Update a realm",
-                "tags": ["Admin API"],
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "path",
-                        "required": true,
-                        "description": "The realm slug",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateRealmData"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/RealmData"
-                                        }
-                                    },
-                                    "required": ["data"]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/ModelNotFoundException"
-                    },
-                    "422": {
-                        "$ref": "#/components/responses/ValidationException"
-                    },
-                    "401": {
-                        "description": "The access token is missing, expired, or not addressed to this API.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["invalid_token"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "The access token does not grant realms:write.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["insufficient_scope"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "adminOAuth2": ["realms:write"]
-                    }
-                ],
-                "x-group": "admin"
-            },
             "delete": {
                 "operationId": "v1.realms.destroy",
                 "description": "Purges the realm's users, roles, clients, tokens and keys, and frees its\nslug. The administration realm cannot be deleted.",
@@ -652,7 +552,7 @@
                 "x-group": "admin"
             },
             "patch": {
-                "operationId": "api.v1.realms.update.patch",
+                "operationId": "v1.realms.update",
                 "description": "A realm's slug is immutable. Settings left out of `settings` keep\ntheir current value. Re-pointing the domain changes the issuer of every\ntoken the realm mints and restarts the domain check.",
                 "summary": "Update a realm",
                 "tags": ["Admin API"],
@@ -1077,6 +977,10 @@
                         "format": "uri",
                         "description": "Where a back-channel logout token is delivered.",
                         "maxLength": 2048
+                    },
+                    "revoked": {
+                        "type": "boolean",
+                        "description": "Whether the client is revoked. Defaults to false when omitted."
                     }
                 },
                 "required": ["name", "token_endpoint_auth_method", "grant_types"],
@@ -2617,6 +2521,10 @@
                         "format": "uri",
                         "description": "Where a back-channel logout token is delivered; `null` clears it.",
                         "maxLength": 2048
+                    },
+                    "revoked": {
+                        "type": "boolean",
+                        "description": "Whether the client is revoked. Omit to keep the current state; false restores the client."
                     }
                 },
                 "title": "UpdateClientData"

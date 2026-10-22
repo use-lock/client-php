@@ -1,8 +1,8 @@
 {
-    "openapi": "3.1.0",
+    "openapi": "3.1.2",
     "info": {
         "title": "Lock API",
-        "version": "1.0.0",
+        "version": "0.0.0",
         "description": "OAuth and OpenID Connect endpoints, discovery metadata, and the APIs for managing this Lock instance. Protocol endpoints are served on each realm\u2019s own host.",
         "license": {
             "name": "MIT",
@@ -471,112 +471,6 @@
                 ],
                 "x-group": "management"
             },
-            "put": {
-                "operationId": "v1.realms.social-providers.update",
-                "tags": ["Management API"],
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "path",
-                        "required": true,
-                        "description": "The realm slug",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "social_provider",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateSocialProviderData"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/SocialProviderData"
-                                        }
-                                    },
-                                    "required": ["data"]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/ModelNotFoundException"
-                    },
-                    "422": {
-                        "$ref": "#/components/responses/ValidationException"
-                    },
-                    "401": {
-                        "description": "The access token is missing, expired, or not addressed to this API.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["invalid_token"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "The access token does not grant social-providers:write.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["insufficient_scope"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": ["social-providers:write"]
-                    }
-                ],
-                "x-group": "management"
-            },
             "delete": {
                 "operationId": "v1.realms.social-providers.destroy",
                 "tags": ["Management API"],
@@ -659,7 +553,7 @@
                 "x-group": "management"
             },
             "patch": {
-                "operationId": "api.v1.realms.social-providers.update.patch",
+                "operationId": "v1.realms.social-providers.update",
                 "tags": ["Management API"],
                 "parameters": [
                     {
@@ -1219,114 +1113,6 @@
                 ],
                 "x-group": "management"
             },
-            "put": {
-                "operationId": "v1.realms.clients.update",
-                "description": "A client's `client_id` is immutable, and everything left out of the\npayload keeps its current value. Turning a public client confidential\nmints a secret; the other way around drops it.",
-                "summary": "Update a client",
-                "tags": ["Management API"],
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "path",
-                        "required": true,
-                        "description": "The realm slug",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "client",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateClientData"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/ClientData"
-                                        }
-                                    },
-                                    "required": ["data"]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/ModelNotFoundException"
-                    },
-                    "422": {
-                        "$ref": "#/components/responses/ValidationException"
-                    },
-                    "401": {
-                        "description": "The access token is missing, expired, or not addressed to this API.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["invalid_token"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "The access token does not grant clients:write.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["insufficient_scope"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": ["clients:write"]
-                    }
-                ],
-                "x-group": "management"
-            },
             "delete": {
                 "operationId": "v1.realms.clients.destroy",
                 "description": "Purges the client together with the tokens, grants and consents issued\nfor it. Blocking it instead keeps the trail.",
@@ -1411,7 +1197,7 @@
                 "x-group": "management"
             },
             "patch": {
-                "operationId": "api.v1.realms.clients.update.patch",
+                "operationId": "v1.realms.clients.update",
                 "description": "A client's `client_id` is immutable, and everything left out of the\npayload keeps its current value. Turning a public client confidential\nmints a secret; the other way around drops it.",
                 "summary": "Update a client",
                 "tags": ["Management API"],
@@ -2149,114 +1935,6 @@
                 ],
                 "x-group": "management"
             },
-            "put": {
-                "operationId": "v1.realms.resources.update",
-                "description": "Fields left out retain their values. The built-in API resources are protected.",
-                "summary": "Update a protected resource",
-                "tags": ["Management API"],
-                "parameters": [
-                    {
-                        "name": "realm",
-                        "in": "path",
-                        "required": true,
-                        "description": "The realm slug",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "resource",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdateResourceData"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/ResourceData"
-                                        }
-                                    },
-                                    "required": ["data"]
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "$ref": "#/components/responses/ModelNotFoundException"
-                    },
-                    "422": {
-                        "$ref": "#/components/responses/ValidationException"
-                    },
-                    "401": {
-                        "description": "The access token is missing, expired, or not addressed to this API.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["invalid_token"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "The access token does not grant resources:write.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "description": "The RFC 6749 error code.",
-                                            "enum": ["insufficient_scope"]
-                                        },
-                                        "error_description": {
-                                            "type": "string",
-                                            "description": "A human readable explanation."
-                                        }
-                                    },
-                                    "required": ["error", "error_description"]
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "oauth2": ["resources:write"]
-                    }
-                ],
-                "x-group": "management"
-            },
             "delete": {
                 "operationId": "v1.realms.resources.destroy",
                 "description": "The built-in API resources cannot be deleted.",
@@ -2341,7 +2019,7 @@
                 "x-group": "management"
             },
             "patch": {
-                "operationId": "api.v1.realms.resources.update.patch",
+                "operationId": "v1.realms.resources.update",
                 "description": "Fields left out retain their values. The built-in API resources are protected.",
                 "summary": "Update a protected resource",
                 "tags": ["Management API"],
@@ -2774,6 +2452,10 @@
                         "format": "uri",
                         "description": "Where a back-channel logout token is delivered.",
                         "maxLength": 2048
+                    },
+                    "revoked": {
+                        "type": "boolean",
+                        "description": "Whether the client is revoked. Defaults to false when omitted."
                     }
                 },
                 "required": ["name", "token_endpoint_auth_method", "grant_types"],
@@ -4314,6 +3996,10 @@
                         "format": "uri",
                         "description": "Where a back-channel logout token is delivered; `null` clears it.",
                         "maxLength": 2048
+                    },
+                    "revoked": {
+                        "type": "boolean",
+                        "description": "Whether the client is revoked. Omit to keep the current state; false restores the client."
                     }
                 },
                 "title": "UpdateClientData"

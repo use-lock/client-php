@@ -9,7 +9,7 @@ use Lock\Client\OpenApi\Management\Model\UpdateClientData;
 it('preserves omitted, null and zero values in PATCH bodies', function (array $data, string $expected) {
     $api = new ClientsApi(config: (new Configuration)->setHost('https://tenant.example/api'));
 
-    $request = $api->patchClientRequest('staging', 'client/123', new UpdateClientData($data));
+    $request = $api->updateClientRequest('staging', 'client/123', new UpdateClientData($data));
 
     expect($request->getMethod())->toBe('PATCH');
     expect($request->getUri()->getPath())->toBe('/api/v1/realms/staging/clients/client%2F123');
