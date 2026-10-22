@@ -28,5 +28,5 @@ it('exposes the named client operations without consent or async endpoints', fun
             }
         }
     }
-    expect($exposed)->toBe(42);
+    expect($exposed)->toBe(38);
 });

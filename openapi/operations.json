@@ -15,10 +15,6 @@
         "Realms",
         "updateRealm"
     ],
-    "api.v1.realms.update.patch": [
-        "Realms",
-        "patchRealm"
-    ],
     "v1.realms.destroy": [
         "Realms",
         "deleteRealm"
@@ -39,10 +35,6 @@
         "SocialProviders",
         "updateSocialProvider"
     ],
-    "api.v1.realms.social-providers.update.patch": [
-        "SocialProviders",
-        "patchSocialProvider"
-    ],
     "v1.realms.social-providers.destroy": [
         "SocialProviders",
         "deleteSocialProvider"
@@ -62,10 +54,6 @@
     "v1.realms.clients.update": [
         "Clients",
         "updateClient"
-    ],
-    "api.v1.realms.clients.update.patch": [
-        "Clients",
-        "patchClient"
     ],
     "v1.realms.clients.destroy": [
         "Clients",
@@ -94,10 +82,6 @@
     "v1.realms.resources.update": [
         "Resources",
         "updateResource"
-    ],
-    "api.v1.realms.resources.update.patch": [
-        "Resources",
-        "patchResource"
     ],
     "v1.realms.resources.destroy": [
         "Resources",
