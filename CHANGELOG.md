@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/use-lock/client-php/compare/0.2.0...0.3.0) (2026-10-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* the patch* operations are removed; use the update* operations, which now send PATCH with partial bodies.
+
+### Features
+
+* follow Lock's PATCH-only API and client revocation ([bf6d3a6](https://github.com/use-lock/client-php/commit/bf6d3a67ba55fefa46003ef61ea9f8419d047b6e))
+
 ## [0.2.0](https://github.com/use-lock/client-php/compare/0.1.0...0.2.0) (2026-09-25)
 
 
